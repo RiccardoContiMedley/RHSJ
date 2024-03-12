@@ -105,7 +105,7 @@ public class State {
 
         if (!isOpponentVehicle(player, vehicleLetter)) {
             System.out.println("Moving vehicle " + vehicleLetter + " towards " + direction);
-            var moveSuccessful = game.moveVehicle(vehicleLetter, direction);
+            boolean moveSuccessful = game.moveVehicle(vehicleLetter, direction);
             game.printGrid();
             return moveSuccessful;
         }
@@ -166,7 +166,7 @@ public class State {
     }
 
     private boolean handleShiftAction(Player player, char gridPart, String direction) {
-        var moveSuccessful = game.shiftGrid(Integer.parseInt(String.valueOf(gridPart)), direction);
+        boolean moveSuccessful = game.shiftGrid(Integer.parseInt(String.valueOf(gridPart)), direction);
         game.printGrid();
         return moveSuccessful;
     }
