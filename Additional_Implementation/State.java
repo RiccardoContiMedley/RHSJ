@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import Cards.Card;
+import Cards.Move;
 
 public class State {
 
@@ -19,6 +20,12 @@ public class State {
         this.scanner = new Scanner(System.in);
         this.players = new ArrayList<>();
         initializePlayers();
+    }
+
+    public static void main(String[] args) {
+        State gameState = new State();
+        gameState.startGame();
+        gameState.scanner.close();
     }
 
     /**
@@ -47,23 +54,24 @@ public class State {
         }
         game.printGrid();
         // print all the cards that are in the deck
-        System.out.println("The deck has the following cards:");
-        for (Card card : game.getDeck().getCards()) {
-            System.out.println(card);
-        }
+        // System.out.println("The deck has the following cards:");
+        // for (Card card : game.getDeck().getCards()) {
+        //     System.out.println(card);
+        // }
 
         // print all the cards that verey player has
-        for (Player player : players) {
-            System.out.println(player.getName() + " has the following cards:");
-            for (int i = 0; i < 4; i++) {
-                System.out.println(player.getPlayerHand().get(i).getName());
-            }
-        }
+        // for (Player player : players) {
+        //     System.out.println(player.getName() + " has the following cards:");
+        //     for (int i = 0; i < 4; i++) {
+        //         System.out.println(player.getPlayerHand().get(i).getName());
+        //     }
+        // }
 
         int currentPlayerIndex = 0;
         while (!isGameOver()) {
             Player currentPlayer = players.get(currentPlayerIndex);
             boolean moveSuccessful = false;
+            Card playedCard = null;
 
             if (currentPlayer instanceof AIPlayer) {
                 // AI move
@@ -73,15 +81,50 @@ public class State {
             } else {
                 // human move
                 while (!moveSuccessful) {
+                    // System.out.println(currentPlayer.getName()
+                    //         + "'s turn. What would you like to do? (move(car,dir)/shift(grid,dir))");
                     System.out.println(currentPlayer.getName()
-                            + "'s turn. What would you like to do? (move(car,dir)/shift(grid,dir))");
+                            + "has the following cards:");
+                    for (int i = 0; i < 4; i++) {
+                        if(currentPlayer.getPlayerHand().get(i).getName() == "Move"){
+                            System.out.println("Move"+((Move)currentPlayer.getPlayerHand().get(i)).getMovements());
+                        } else{
+                            System.out.println(currentPlayer.getPlayerHand().get(i).getName());
+                        }
+
+                    }
+                    System.out.println(currentPlayer.getName()
+                    + "'s turn. play the card the following way: move(spaces) or shift(spaces,dir, side), slide(car,dir,spaces), moveandsfhift??");        
                     String actionType = scanner.next();
+                    String[] parts = actionType.split("\\W+");
+                    //check if actiontype corrisponds to one of the cards in the player's hand 
+                    //and if so remove it from the hand
+                    System.out.println("You played: " + actionType);
+                    System.out.println("Your hand before playing is: ");
+                    for (int i = 0; i < 4; i++) {
+                        System.out.println(currentPlayer.getPlayerHand().get(i).getName());
+                    }
+                    boolean cardInHand = false;
+                    for (int i = 0; i < 4; i++) {
+                        if(currentPlayer.getPlayerHand().get(i).getName().toLowerCase().equals(parts[0].toLowerCase())){
+                            playedCard = currentPlayer.getPlayerHand().get(i);
+                            currentPlayer.getPlayerHand().remove(i);
+                            cardInHand = true;
+                            break;
+                        }
+                    }
+                    if(!cardInHand){
+                        System.out.println("You don't have that card in your hand");
+                        continue;
+                    }
                     moveSuccessful = handleAction(currentPlayer, actionType);
                     if (!moveSuccessful) {
                         System.out.println("Illegal move. Please try again.");
+                        currentPlayer.getPlayerHand().add(playedCard);
                     }
                 }
             }
+
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         }
     }
@@ -89,24 +132,56 @@ public class State {
     private boolean handleAction(Player player, String actionCommand) {
 
         String[] parts = actionCommand.split("\\W+"); // splits at all "non-word" characters: move(1,E) -> [move, 1, E]
-        if (parts.length < 3) {
-            System.out.println("Invalid command format. Please try again.");
-            return false;
-        }
+        // if (parts.length < 3) {
+        //     System.out.println("Invalid command format. Please try again.");
+        //     return false;
+        // }
         String actionType = parts[0].trim();
-        char valueLetter = parts[1].trim().charAt(0);
-        String direction = parts[2].trim();
+        // char valueLetter = parts[1].trim().charAt(0);
+        // String direction = parts[2].trim();
 
         switch (actionType.toLowerCase()) {
             case "move":
-                return handleMoveAction(player, valueLetter, direction);
+                return handleMoveCard(player, parts[1].trim().charAt(0));
             case "shift":
-                return handleShiftAction(player, valueLetter, direction);
+                // return handleShiftAction(player, valueLetter, direction);
             default:
                 System.out.println("Invalid action. Please try again.");
                 return false;
         }
     }
+
+    /**
+     * this method is gonna ask to the player numberOfMoevs times what move he wants to do
+     * and then it will call the handleMoveAction method after each move it receives
+     * @param player
+     * @param numberOfMoves
+     * @return
+     */
+    private boolean handleMoveCard(Player player, char numberOfMoves) {
+        boolean moveSuccessful = false;
+        for (int i = 1; i <= numberOfMoves; i++) {
+            System.out.println(player.getName()
+                        + "'s move N"+ i +". What would you like to do? car,dir)");
+            String move = scanner.next();
+
+            String[] parts = move.split("\\W+"); // splits at all "non-word" characters: move(1,E) -> [move, 1, E]
+
+            char valueLetter = parts[0].trim().charAt(0);
+            String direction = parts[1].trim();
+            moveSuccessful = handleMoveAction(player, Character.toUpperCase(valueLetter), direction.toUpperCase());
+            if (!moveSuccessful) {
+                return false;
+            }
+            if(i == numberOfMoves){
+                return true;
+            }
+        }
+
+        System.out.println("porcodio");
+        return moveSuccessful;
+    }
+
 
     private boolean handleMoveAction(Player player, char vehicleLetter, String direction) {
 
@@ -185,7 +260,16 @@ public class State {
     }
 
     private void initializePlayers() {
-        Player player1 = new AIPlayer();
+        System.out.println("Enter name for Player 1:");
+        String player1Name = scanner.nextLine();
+        Player player1 = null;
+        if(player1Name.isEmpty() || player1Name.isBlank() || player1Name == null || player1Name.equals("AI")){
+            player1Name = "AI";
+            player1 = new AIPlayer();
+        }
+        else{
+            player1 = new Player(player1Name, '1', 0);
+        }
         players.add(player1);
 
         System.out.println("Enter name for Player 2:");
@@ -233,9 +317,5 @@ public class State {
         return null;
     }
 
-    public static void main(String[] args) {
-        State gameState = new State();
-        gameState.startGame();
-        gameState.scanner.close();
-    }
+
 }
