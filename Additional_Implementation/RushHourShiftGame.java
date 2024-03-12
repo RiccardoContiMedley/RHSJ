@@ -345,8 +345,8 @@ public class RushHourShiftGame {
             for (int j = 0; j < GRID_COLS; j++) {
                 if (gameGrid[i][j] != '.' && gameGrid[i][j] != '#') {
                     System.out.println("gridvalue: "+ gameGrid[i][j]);
-                    System.out.println(vehicles.get(gameGrid[i][j]));
-                    vehiclesInRows.get(i).add(vehicles.get(gameGrid[i][j]));
+                    System.out.println(vehicles.get(String.valueOf(gameGrid[i][j])));
+                    vehiclesInRows.get(i).add(vehicles.get(String.valueOf(gameGrid[i][j])));
                 }
             }
         }

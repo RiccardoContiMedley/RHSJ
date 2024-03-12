@@ -3,7 +3,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import Cards.Card;
-import Cards.Deck;
 
 public class State {
 
