@@ -57,7 +57,7 @@ public class State {
             while (!moveSuccessful) {
                 System.out.println(currentPlayer.getName()
                         + "'s turn. What would you like to do? (move(car,dir)/shift(grid,dir))");
-                String actionType = scanner.next();
+                String actionType = scanner.next().toUpperCase();
                 moveSuccessful = handleAction(currentPlayer, actionType);
                 if (!moveSuccessful) {
                     System.out.println("Illegal move. Please try again.");
