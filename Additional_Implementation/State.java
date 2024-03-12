@@ -38,22 +38,22 @@ public class State {
         }
 
         game = new RushHourShiftGame(chosenMap);
-        //assigning cards to players
+        // assigning cards to players
         for (Player player : players) {
-            //forr loop that iterates 4 times
+            // forr loop that iterates 4 times
             player.setPlayerHand(new ArrayList<Card>());
             for (int i = 0; i < 4; i++) {
                 player.getPlayerHand().add(game.getDeck().drawCard());
             }
         }
         game.printGrid();
-        //print all the cards that are in the deck
+        // print all the cards that are in the deck
         System.out.println("The deck has the following cards:");
-        for (Card card: game.getDeck().getCards()) {
+        for (Card card : game.getDeck().getCards()) {
             System.out.println(card);
         }
 
-        //print all  the cards that verey player has
+        // print all the cards that verey player has
         for (Player player : players) {
             System.out.println(player.getName() + " has the following cards:");
             for (int i = 0; i < 4; i++) {
@@ -66,31 +66,21 @@ public class State {
             Player currentPlayer = players.get(currentPlayerIndex);
             boolean moveSuccessful = false;
 
-            // Ai move
-            if (currentPlayer.getName().equals("AI")) {
-                System.out.println("AI's turn");
-                // moveSuccessful = game.moveVehicle('1', "E");
-                // game.printGrid();
-                moveSuccessful = handleAction(currentPlayer, "move(1,E)");
-                // Ai.move("state")
-                if (!moveSuccessful) {
-                    System.out.println("Illegal move. Please try again.");
-                    System.out.println("The AI got confused and made an illegal move.");
-                    System.out.println("The AI got confused and made an illegal move.");
-                    System.out.println("The AI got confused and made an illegal move.");
-                    System.out.println("The AI got confused and made an illegal move.");
-                    System.out.println("The AI got confused and made an illegal move.");
-                    System.out.println("The AI got confused and made an illegal move.");
-                }
-            }
-            // human move
-            while (!moveSuccessful) {
-                System.out.println(currentPlayer.getName()
-                        + "'s turn. What would you like to do? (move(car,dir)/shift(grid,dir))");
-                String actionType = scanner.next().toUpperCase();
-                moveSuccessful = handleAction(currentPlayer, actionType);
-                if (!moveSuccessful) {
-                    System.out.println("Illegal move. Please try again.");
+            if (currentPlayer instanceof AIPlayer) {
+                // AI move
+                System.out.println("AI's turn...");
+                ((AIPlayer) currentPlayer).makeMove(game);
+                game.printGrid();
+            } else {
+                // human move
+                while (!moveSuccessful) {
+                    System.out.println(currentPlayer.getName()
+                            + "'s turn. What would you like to do? (move(car,dir)/shift(grid,dir))");
+                    String actionType = scanner.next();
+                    moveSuccessful = handleAction(currentPlayer, actionType);
+                    if (!moveSuccessful) {
+                        System.out.println("Illegal move. Please try again.");
+                    }
                 }
             }
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
@@ -196,10 +186,8 @@ public class State {
     }
 
     private void initializePlayers() {
-        System.out.println("Enter name for Player 1:");
-        String player1Name = scanner.nextLine();
-        players.add(new Player(player1Name, '1', RushHourShiftGame.getGridCols() - 1)); // '1' represents the hero car
-                                                                                        // for Player 1
+        Player player1 = new AIPlayer();
+        players.add(player1);
 
         System.out.println("Enter name for Player 2:");
         String player2Name = scanner.nextLine();
