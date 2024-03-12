@@ -3,6 +3,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import Cards.Deck;
+
 public class RushHourShiftGame {
 
     // specify the grid
@@ -10,6 +12,7 @@ public class RushHourShiftGame {
     private static final int GRID_COLS = 14; // Each grid 5 by 4 by 5
     private char[][] gameGrid;
     private HashMap<Character, VehicleAlignment> vehicleAlignments;
+    private Deck deck;
 
     // Vehicles of the game
     public static final Vehicle CARA = new Vehicle('A', 3);
@@ -35,6 +38,9 @@ public class RushHourShiftGame {
         this.map = map;
         this.vehicleAlignments = new HashMap<>();
         initializeGrid();
+        deck = new Deck();
+        
+
     }
 
     /**
@@ -357,5 +363,13 @@ public class RushHourShiftGame {
             }
         }
         return vehiclesInColumns;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
     }
 }
