@@ -328,6 +328,7 @@ public class RushHourShiftGame {
     private HashMap<Integer, List<VehicleAlignment>> getVehiclesInRows() {
         HashMap<Integer, List<VehicleAlignment>> vehiclesInRows = new HashMap<>();
         System.out.println("veic keys: " + vehicles.keySet());
+        System.out.println("veic keys: " + vehicles.values());
         for (int i = 0; i < GRID_ROWS; i++) {
             vehiclesInRows.put(i, new ArrayList<>());
         }
