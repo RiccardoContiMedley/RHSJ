@@ -16,4 +16,6 @@ public class Move extends Card {
     public String actionDescription() {
         return "Allows " + movements + " movements in one round.";
     }
+
+
 }

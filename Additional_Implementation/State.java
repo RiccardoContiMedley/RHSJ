@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import Cards.Card;
+import Cards.Deck;
+
 public class State {
 
     private RushHourShiftGame game;
@@ -35,7 +38,28 @@ public class State {
         }
 
         game = new RushHourShiftGame(chosenMap);
+        //assigning cards to players
+        for (Player player : players) {
+            //forr loop that iterates 4 times
+            player.setPlayerHand(new ArrayList<Card>());
+            for (int i = 0; i < 4; i++) {
+                player.getPlayerHand().add(game.getDeck().drawCard());
+            }
+        }
         game.printGrid();
+        //print all the cards that are in the deck
+        System.out.println("The deck has the following cards:");
+        for (Card card: game.getDeck().getCards()) {
+            System.out.println(card);
+        }
+
+        //print all  the cards that verey player has
+        for (Player player : players) {
+            System.out.println(player.getName() + " has the following cards:");
+            for (int i = 0; i < 4; i++) {
+                System.out.println(player.getPlayerHand().get(i).getName());
+            }
+        }
 
         int currentPlayerIndex = 0;
         while (!isGameOver()) {
@@ -105,7 +129,7 @@ public class State {
 
         if (!isOpponentVehicle(player, vehicleLetter)) {
             System.out.println("Moving vehicle " + vehicleLetter + " towards " + direction);
-            var moveSuccessful = game.moveVehicle(vehicleLetter, direction);
+            boolean moveSuccessful = game.moveVehicle(vehicleLetter, direction);
             game.printGrid();
             return moveSuccessful;
         }
@@ -166,7 +190,7 @@ public class State {
     }
 
     private boolean handleShiftAction(Player player, char gridPart, String direction) {
-        var moveSuccessful = game.shiftGrid(Integer.parseInt(String.valueOf(gridPart)), direction);
+        boolean moveSuccessful = game.shiftGrid(Integer.parseInt(String.valueOf(gridPart)), direction);
         game.printGrid();
         return moveSuccessful;
     }

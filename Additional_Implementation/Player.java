@@ -1,7 +1,12 @@
+import java.util.ArrayList;
+
+import Cards.Card;
+
 public class Player {
     private String name;
     private char heroCar;
     private int horizontalBound;
+    private ArrayList<Card> playerHand;
 
     public Player(String name, char heroCar, int horizontalBound) {
         this.name = name;
@@ -33,4 +38,14 @@ public class Player {
         this.horizontalBound = horizontalBound;
     }
 
+    public ArrayList<Card> getPlayerHand() {
+        return playerHand;
+    }
+
+    public void setPlayerHand(ArrayList<Card> cards) {
+        this.playerHand = cards;
+    }
+
+
+    
 }

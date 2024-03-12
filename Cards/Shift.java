@@ -2,6 +2,7 @@ package Cards;
 
 public class Shift extends Card {
     private int squares;
+    private int grid;
 
     public Shift(int squares) {
         super("Shift");

@@ -3,6 +3,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import Cards.Deck;
+
 public class RushHourShiftGame {
 
     // specify the grid
@@ -10,6 +12,7 @@ public class RushHourShiftGame {
     private static final int GRID_COLS = 14; // Each grid 5 by 4 by 5
     private char[][] gameGrid;
     private HashMap<Character, VehicleAlignment> vehicleAlignments;
+    private Deck deck;
 
     // Vehicles of the game
     public static final Vehicle CARA = new Vehicle('A', 3);
@@ -34,6 +37,9 @@ public class RushHourShiftGame {
         this.map = map;
         this.vehicleAlignments = new HashMap<>();
         initializeGrid();
+        deck = new Deck();
+        
+
     }
 
     /**
@@ -61,8 +67,9 @@ public class RushHourShiftGame {
     }
 
     /**
-     * sets up the grid wth dots on the playable part of the grid, and 
+     * sets up the grid wth dots on the playable part of the grid, and
      * # in parts of the grid that are not playable
+     * 
      * @param gameGrid
      */
     private void setUpGridWithEmptySpaces(char[][] gameGrid) {
@@ -80,12 +87,13 @@ public class RushHourShiftGame {
 
     /**
      * puts the vehicles on the grid
+     * 
      * @param map
      */
     private void setUpGridWithVehicles(Map map) {
         for (VehicleAlignment vh : map.getVehiclesAlignment()) {
             vehicleAlignments.put(vh.getVehicle().getLetter(), vh);
-            var vehicle = vh.getVehicle();
+            Vehicle vehicle = vh.getVehicle();
             // This specifies if it is horizontally or vertically aligned
             VehicleAlignment.Alignment alignment = vh.getAlignment();
             int vehicleRow = vh.getRow();
@@ -323,7 +331,8 @@ public class RushHourShiftGame {
     }
 
     /**
-     * returns an array containing for each row of the grid a map of the vehicles in it
+     * returns an array containing for each row of the grid a map of the vehicles in
+     * it
      */
     private HashMap<Integer, List<VehicleAlignment>> getVehiclesInRows() {
         HashMap<Integer, List<VehicleAlignment>> vehiclesInRows = new HashMap<>();
@@ -345,7 +354,8 @@ public class RushHourShiftGame {
     }
 
     /**
-     * returns an array containing for each column of the grid a map of the vehicles in it
+     * returns an array containing for each column of the grid a map of the vehicles
+     * in it
      */
     private HashMap<Integer, List<VehicleAlignment>> getVehiclesInColumns() {
         HashMap<Integer, List<VehicleAlignment>> vehiclesInColumns = new HashMap<>();
@@ -360,5 +370,13 @@ public class RushHourShiftGame {
             }
         }
         return vehiclesInColumns;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
     }
 }
