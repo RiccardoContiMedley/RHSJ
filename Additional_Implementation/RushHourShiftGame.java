@@ -25,8 +25,7 @@ public class RushHourShiftGame {
     public static final Vehicle CAR1 = new Vehicle('1', 2);
     public static final Vehicle CAR2 = new Vehicle('2', 2);
 
-    List<VehicleAlignment> vehicles = new ArrayList<>();
-
+    HashMap<String, VehicleAlignment> vehicles = new HashMap<>();
 
     private Map map;
 
@@ -52,7 +51,7 @@ public class RushHourShiftGame {
         System.out.println(getVehiclesInColumns());
         System.out.println(vehicles);
         //for every element in veichles print the letter, and the aligmnet and the size
-        for (VehicleAlignment vh : vehicles) {
+        for (VehicleAlignment vh : vehicles.values()) {
             System.out.println(vh.getVehicle().getLetter() + " " + vh.getAlignment() + " " + vh.getVehicle().getSize());
         }
     }
@@ -93,7 +92,7 @@ public class RushHourShiftGame {
             int vehicleColumn = vh.getColumn();
 
             addVehicleToGrid(vehicle, alignment, vehicleRow, vehicleColumn);
-            vehicles.add(vh);
+            vehicles.put(vehicle.getLetter() + "", vh);
         }
     }
 
@@ -326,15 +325,18 @@ public class RushHourShiftGame {
     /**
      * returns an array containing for each row of the grid a map of the vehicles in it
      */
-    private HashMap<Integer, List<Vehicle>> getVehiclesInRows() {
-        HashMap<Integer, List<Vehicle>> vehiclesInRows = new HashMap<>();
+    private HashMap<Integer, List<VehicleAlignment>> getVehiclesInRows() {
+        HashMap<Integer, List<VehicleAlignment>> vehiclesInRows = new HashMap<>();
+        System.out.println("veic keys: " + vehicles.keySet());
         for (int i = 0; i < GRID_ROWS; i++) {
             vehiclesInRows.put(i, new ArrayList<>());
         }
         for (int i = 0; i < GRID_ROWS; i++) {
             for (int j = 0; j < GRID_COLS; j++) {
                 if (gameGrid[i][j] != '.' && gameGrid[i][j] != '#') {
-                    vehiclesInRows.get(i).add(new Vehicle(gameGrid[i][j], 0));
+                    System.out.println("gridvalue: "+ gameGrid[i][j]);
+                    System.out.println(vehicles.get(gameGrid[i][j]));
+                    vehiclesInRows.get(i).add(vehicles.get(gameGrid[i][j]));
                 }
             }
         }
@@ -344,15 +346,15 @@ public class RushHourShiftGame {
     /**
      * returns an array containing for each column of the grid a map of the vehicles in it
      */
-    private HashMap<Integer, List<Vehicle>> getVehiclesInColumns() {
-        HashMap<Integer, List<Vehicle>> vehiclesInColumns = new HashMap<>();
+    private HashMap<Integer, List<VehicleAlignment>> getVehiclesInColumns() {
+        HashMap<Integer, List<VehicleAlignment>> vehiclesInColumns = new HashMap<>();
         for (int i = 0; i < GRID_COLS; i++) {
             vehiclesInColumns.put(i, new ArrayList<>());
         }
         for (int i = 0; i < GRID_ROWS; i++) {
             for (int j = 0; j < GRID_COLS; j++) {
                 if (gameGrid[i][j] != '.' && gameGrid[i][j] != '#') {
-                    vehiclesInColumns.get(j).add(new Vehicle(gameGrid[i][j], 0));
+                    vehiclesInColumns.get(j).add(vehicles.get(gameGrid[i][j]));
                 }
             }
         }
