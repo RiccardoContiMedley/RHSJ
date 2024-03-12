@@ -66,24 +66,28 @@ public class State {
             Player currentPlayer = players.get(currentPlayerIndex);
             boolean moveSuccessful = false;
 
-            //Ai move
-            if(currentPlayer.getName() == "AI"){
+            // Ai move
+            if (currentPlayer.getName().equals("AI")) {
                 System.out.println("AI's turn");
                 // moveSuccessful = game.moveVehicle('1', "E");
                 // game.printGrid();
-                // currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
                 moveSuccessful = handleAction(currentPlayer, "move(1,E)");
                 // Ai.move("state")
                 if (!moveSuccessful) {
                     System.out.println("Illegal move. Please try again.");
+                    System.out.println("The AI got confused and made an illegal move.");
+                    System.out.println("The AI got confused and made an illegal move.");
+                    System.out.println("The AI got confused and made an illegal move.");
+                    System.out.println("The AI got confused and made an illegal move.");
+                    System.out.println("The AI got confused and made an illegal move.");
+                    System.out.println("The AI got confused and made an illegal move.");
                 }
-                continue;
             }
-            //human move
+            // human move
             while (!moveSuccessful) {
                 System.out.println(currentPlayer.getName()
                         + "'s turn. What would you like to do? (move(car,dir)/shift(grid,dir))");
-                String actionType = scanner.next();
+                String actionType = scanner.next().toUpperCase();
                 moveSuccessful = handleAction(currentPlayer, actionType);
                 if (!moveSuccessful) {
                     System.out.println("Illegal move. Please try again.");
@@ -95,7 +99,7 @@ public class State {
 
     private boolean handleAction(Player player, String actionCommand) {
 
-        String[] parts = actionCommand.split("\\W+"); //splits at all "non-word" characters: move(1,E) -> [move, 1, E]
+        String[] parts = actionCommand.split("\\W+"); // splits at all "non-word" characters: move(1,E) -> [move, 1, E]
         if (parts.length < 3) {
             System.out.println("Invalid command format. Please try again.");
             return false;
@@ -125,7 +129,7 @@ public class State {
 
         if (!isOpponentVehicle(player, vehicleLetter)) {
             System.out.println("Moving vehicle " + vehicleLetter + " towards " + direction);
-            var moveSuccessful = game.moveVehicle(vehicleLetter, direction);
+            boolean moveSuccessful = game.moveVehicle(vehicleLetter, direction);
             game.printGrid();
             return moveSuccessful;
         }
@@ -186,7 +190,7 @@ public class State {
     }
 
     private boolean handleShiftAction(Player player, char gridPart, String direction) {
-        var moveSuccessful = game.shiftGrid(Integer.parseInt(String.valueOf(gridPart)), direction);
+        boolean moveSuccessful = game.shiftGrid(Integer.parseInt(String.valueOf(gridPart)), direction);
         game.printGrid();
         return moveSuccessful;
     }

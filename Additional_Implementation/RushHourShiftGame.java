@@ -30,7 +30,6 @@ public class RushHourShiftGame {
 
     List<VehicleAlignment> vehicles = new ArrayList<>();
 
-
     private Map map;
 
     public RushHourShiftGame(Map map) {
@@ -57,7 +56,7 @@ public class RushHourShiftGame {
         System.out.println(getVehiclesInRows());
         System.out.println(getVehiclesInColumns());
         System.out.println(vehicles);
-        //for every element in veichles print the letter, and the aligmnet and the size
+        // for every element in veichles print the letter, and the aligmnet and the size
         for (VehicleAlignment vh : vehicles) {
             System.out.println(vh.getVehicle().getLetter() + " " + vh.getAlignment() + " " + vh.getVehicle().getSize());
         }
@@ -68,8 +67,9 @@ public class RushHourShiftGame {
     }
 
     /**
-     * sets up the grid wth dots on the playable part of the grid, and 
+     * sets up the grid wth dots on the playable part of the grid, and
      * # in parts of the grid that are not playable
+     * 
      * @param gameGrid
      */
     private void setUpGridWithEmptySpaces(char[][] gameGrid) {
@@ -87,12 +87,13 @@ public class RushHourShiftGame {
 
     /**
      * puts the vehicles on the grid
+     * 
      * @param map
      */
     private void setUpGridWithVehicles(Map map) {
         for (VehicleAlignment vh : map.getVehiclesAlignment()) {
             vehicleAlignments.put(vh.getVehicle().getLetter(), vh);
-            var vehicle = vh.getVehicle();
+            Vehicle vehicle = vh.getVehicle();
             // This specifies if it is horizontally or vertically aligned
             VehicleAlignment.Alignment alignment = vh.getAlignment();
             int vehicleRow = vh.getRow();
@@ -330,7 +331,8 @@ public class RushHourShiftGame {
     }
 
     /**
-     * returns an array containing for each row of the grid a map of the vehicles in it
+     * returns an array containing for each row of the grid a map of the vehicles in
+     * it
      */
     private HashMap<Integer, List<Vehicle>> getVehiclesInRows() {
         HashMap<Integer, List<Vehicle>> vehiclesInRows = new HashMap<>();
@@ -348,7 +350,8 @@ public class RushHourShiftGame {
     }
 
     /**
-     * returns an array containing for each column of the grid a map of the vehicles in it
+     * returns an array containing for each column of the grid a map of the vehicles
+     * in it
      */
     private HashMap<Integer, List<Vehicle>> getVehiclesInColumns() {
         HashMap<Integer, List<Vehicle>> vehiclesInColumns = new HashMap<>();
