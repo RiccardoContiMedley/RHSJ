@@ -1,4 +1,3 @@
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,12 +8,20 @@ public class State {
     private Scanner scanner;
     private List<Player> players;
 
+    /**
+     * Constructor for the State class called by main
+     * first initializes the scanner object to read user input
+     * and request for the palyers names
+     */
     public State() {
         this.scanner = new Scanner(System.in);
         this.players = new ArrayList<>();
         initializePlayers();
     }
 
+    /**
+     * This method is called to start the game by the main after state
+     */
     public void startGame() {
         System.out.println("Welcome to Rush Hour Shift Game...");
         Map chosenMap = null;
@@ -35,6 +42,20 @@ public class State {
             Player currentPlayer = players.get(currentPlayerIndex);
             boolean moveSuccessful = false;
 
+            //Ai move
+            if(currentPlayer.getName() == "AI"){
+                System.out.println("AI's turn");
+                // moveSuccessful = game.moveVehicle('1', "E");
+                // game.printGrid();
+                // currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+                moveSuccessful = handleAction(currentPlayer, "move(1,E)");
+                // Ai.move("state")
+                if (!moveSuccessful) {
+                    System.out.println("Illegal move. Please try again.");
+                }
+                continue;
+            }
+            //human move
             while (!moveSuccessful) {
                 System.out.println(currentPlayer.getName()
                         + "'s turn. What would you like to do? (move(car,dir)/shift(grid,dir))");
@@ -49,9 +70,8 @@ public class State {
     }
 
     private boolean handleAction(Player player, String actionCommand) {
-        // scanner.nextLine(); // Consume newline
 
-        String[] parts = actionCommand.split("\\W+");
+        String[] parts = actionCommand.split("\\W+"); //splits at all "non-word" characters: move(1,E) -> [move, 1, E]
         if (parts.length < 3) {
             System.out.println("Invalid command format. Please try again.");
             return false;
