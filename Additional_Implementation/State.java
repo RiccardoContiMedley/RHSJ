@@ -51,6 +51,12 @@ public class State {
                 // Ai.move("state")
                 if (!moveSuccessful) {
                     System.out.println("Illegal move. Please try again.");
+                    System.out.println("The AI got confused and made an illegal move.");
+                    System.out.println("The AI got confused and made an illegal move.");
+                    System.out.println("The AI got confused and made an illegal move.");
+                    System.out.println("The AI got confused and made an illegal move.");
+                    System.out.println("The AI got confused and made an illegal move.");
+                    System.out.println("The AI got confused and made an illegal move.");
                 }
             }
             // human move
