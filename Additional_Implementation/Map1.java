@@ -22,7 +22,7 @@ public class Map1 implements Map {
         vehicleAlignment.add(new VehicleAlignment(RushHourShiftGame.CARI, VehicleAlignment.Alignment.VERTICAL, 5, 10));
         vehicleAlignment
                 .add(new VehicleAlignment(RushHourShiftGame.CARJ, VehicleAlignment.Alignment.HORIZONTAL, 6, 11));
-        vehicleAlignment.add(new VehicleAlignment(RushHourShiftGame.CAR1, VehicleAlignment.Alignment.HORIZONTAL, 7, 0));
+        vehicleAlignment.add(new VehicleAlignment(RushHourShiftGame.CAR1, VehicleAlignment.Alignment.HORIZONTAL, 6, 0));
         vehicleAlignment
                 .add(new VehicleAlignment(RushHourShiftGame.CAR2, VehicleAlignment.Alignment.HORIZONTAL, 9, 12));
         return vehicleAlignment;
