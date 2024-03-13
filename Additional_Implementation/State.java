@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import Cards.Card;
 import Cards.Move;
+import Cards.Slide;
 
 public class State {
 
@@ -102,15 +103,6 @@ public class State {
         // Get the vehicle's current positions
         List<int[]> vehiclePositions = game.getVehiclePositions(vehicleLetter);
 
-        // Determine if the move is towards the player's restricted side
-        // This requires knowing the player's starting side, which we deduce from their
-        // horizontalBound
-        // For simplicity, let's assume:
-        // - Player starting from left (Player 1) has a higher horizontalBound (right
-        // side of the grid)
-        // - Player starting from right (Player 2) has a lower horizontalBound (left
-        // side of the grid)
-
         boolean isMovingTowardsRestrictedSide = false;
         if (player.getHorizontalBound() > RushHourShiftGame.getGridCols() / 2) { // Assuming Player 1 starts from the
                                                                                  // left
@@ -152,7 +144,7 @@ public class State {
             player1Name = "AI";
             player1 = new AIPlayer();
         } else {
-            player1 = new Player(player1Name, '1', 0);
+            player1 = new Player(player1Name, '1', RushHourShiftGame.getGridCols() - 1);
         }
         players.add(player1);
 
@@ -161,7 +153,7 @@ public class State {
         players.add(new Player(player2Name, '2', 0));
     }
 
-    private boolean isGameOver() {
+    public static boolean isGameOver() {
         char[][] gameGrid = game.getGameGrid(); // Get the current state of the game grid
         boolean player1InGame = false;
         boolean player2InGame = false;

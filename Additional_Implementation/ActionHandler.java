@@ -38,7 +38,6 @@ public class ActionHandler {
     private static String[] HandlePlayerCardInput(Scanner scanner, Player currentPlayer) {
         boolean cardInHand = false;
         String[] actionType = getCardActionPartsFromPlayer(scanner);
-        printPlayersCardsBeforePlaying(currentPlayer);
         cardInHand = removeCardFromHand(currentPlayer, actionType);
         if (!cardInHand) {
             System.out.println("You don't have that card in your hand");
@@ -90,13 +89,6 @@ public class ActionHandler {
     private static void printUserCardsInstruction(Player currentPlayer) {
         System.out.println(currentPlayer.getName()
                 + "'s turn. play the card the following way: move(spaces) or shift(side,dir,spaces), slide(car,dir,spaces), shiftandmove(spaces)");
-    }
-
-    private static void printPlayersCardsBeforePlaying(Player currentPlayer) {
-        System.out.println("Your hand before playing is: ");
-        for (int i = 0; i < 4; i++) {
-            System.out.println(currentPlayer.getPlayerHand().get(i).getName());
-        }
     }
 
     private static String[] getCardActionPartsFromPlayer(Scanner scanner) {
@@ -169,7 +161,11 @@ public class ActionHandler {
             for (int i = 0; i < movements; i++) {
                 // Attempt to move the vehicle. moveVehicle() should return a boolean indicating
                 // success
-                boolean result = game.moveVehicle(vehicleLetter, direction);
+                boolean result = State.handleMoveAction(player, vehicleLetter, direction);
+
+                if (State.isGameOver()) {
+                    return true;
+                }
 
                 if (!result) { // If any move is unsuccessful
                     moveSuccessful = false;
