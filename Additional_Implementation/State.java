@@ -78,6 +78,7 @@ public class State {
                 System.out.println("AI's turn...");
                 ((AIPlayer) currentPlayer).makeMove(game);
                 game.printGrid();
+                currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
             } else {
                 // human move
                 while (!moveSuccessful) {
@@ -99,11 +100,6 @@ public class State {
                     String[] parts = actionType.split("\\W+");
                     //check if actiontype corrisponds to one of the cards in the player's hand 
                     //and if so remove it from the hand
-                    System.out.println("You played: " + actionType);
-                    System.out.println("Your hand before playing is: ");
-                    for (int i = 0; i < 4; i++) {
-                        System.out.println(currentPlayer.getPlayerHand().get(i).getName());
-                    }
                     boolean cardInHand = false;
                     for (int i = 0; i < 4; i++) {
                         if(currentPlayer.getPlayerHand().get(i).getName().toLowerCase().equals(parts[0].toLowerCase())){
@@ -121,11 +117,13 @@ public class State {
                     if (!moveSuccessful) {
                         System.out.println("Illegal move. Please try again.");
                         currentPlayer.getPlayerHand().add(playedCard);
+                    }else{
+                        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+                        currentPlayer.getPlayerHand().add(game.getDeck().drawCard());
                     }
+
                 }
             }
-
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         }
     }
 
@@ -142,7 +140,7 @@ public class State {
 
         switch (actionType.toLowerCase()) {
             case "move":
-                return handleMoveCard(player, parts[1].trim().charAt(0));
+                return handleMoveCard(player, parts[1].trim().charAt(0)-'0'); // char - '0' to convert digit char to int
             case "shift":
                 // return handleShiftAction(player, valueLetter, direction);
             default:
@@ -158,11 +156,12 @@ public class State {
      * @param numberOfMoves
      * @return
      */
-    private boolean handleMoveCard(Player player, char numberOfMoves) {
+    private boolean handleMoveCard(Player player, int numberOfMoves) {
         boolean moveSuccessful = false;
+    
         for (int i = 1; i <= numberOfMoves; i++) {
             System.out.println(player.getName()
-                        + "'s move N"+ i +". What would you like to do? car,dir)");
+                        + "'s move Number "+ i +". What would you like to do? (car,dir)");
             String move = scanner.next();
 
             String[] parts = move.split("\\W+"); // splits at all "non-word" characters: move(1,E) -> [move, 1, E]
@@ -172,9 +171,6 @@ public class State {
             moveSuccessful = handleMoveAction(player, Character.toUpperCase(valueLetter), direction.toUpperCase());
             if (!moveSuccessful) {
                 return false;
-            }
-            if(i == numberOfMoves){
-                return true;
             }
         }
 
