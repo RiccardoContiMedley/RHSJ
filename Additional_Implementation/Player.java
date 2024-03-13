@@ -60,4 +60,8 @@ public class Player {
         this.playerHand = cards;
     }
 
+    public void makeMove(RushHourShiftGame game) {
+        ActionHandler.makeMove(this, game);
+    }
+
 }

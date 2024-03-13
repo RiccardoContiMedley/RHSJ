@@ -38,7 +38,6 @@ public class RushHourShiftGame {
         this.vehicleAlignments = new HashMap<>();
         initializeGrid();
         deck = new Deck();
-        
 
     }
 
@@ -56,7 +55,7 @@ public class RushHourShiftGame {
         System.out.println(getVehiclesInRows());
         System.out.println(getVehiclesInColumns());
         System.out.println(vehicles);
-        //for every element in veichles print the letter, and the aligmnet and the size
+        // for every element in veichles print the letter, and the aligmnet and the size
         for (VehicleAlignment vh : vehicles.values()) {
             System.out.println(vh.getVehicle().getLetter() + " " + vh.getAlignment() + " " + vh.getVehicle().getSize());
         }
@@ -225,7 +224,7 @@ public class RushHourShiftGame {
                 && gameGrid[newRow][newCol] == '.';
     }
 
-    private void updateVehiclePosition(List<int[]> vehiclePositions, int rowDelta, int colDelta, char vehicleLetter) {
+    public void updateVehiclePosition(List<int[]> vehiclePositions, int rowDelta, int colDelta, char vehicleLetter) {
         // First, clear the current positions of the vehicle
         for (int[] position : vehiclePositions) {
             gameGrid[position[0]][position[1]] = '.';
@@ -252,7 +251,30 @@ public class RushHourShiftGame {
         return positions;
     }
 
-    public boolean shiftGrid(int gridPart, String direction) {
+    public void setVehiclePositions(char vehicleLetter, List<int[]> newPositions) {
+        // First, clear the current positions of the vehicle
+        for (int i = 0; i < GRID_ROWS; i++) {
+            for (int j = 0; j < GRID_COLS; j++) {
+                if (gameGrid[i][j] == vehicleLetter) {
+                    gameGrid[i][j] = '.'; // Set to empty
+                }
+            }
+        }
+
+        // Now, set the new positions for the vehicle
+        for (int[] position : newPositions) {
+            int row = position[0];
+            int col = position[1];
+            // Check the bounds to ensure positions are within the grid
+            if (row >= 0 && row < GRID_ROWS && col >= 0 && col < GRID_COLS) {
+                gameGrid[row][col] = vehicleLetter;
+            } else {
+                System.out.println("Position out of bounds: " + row + ", " + col);
+            }
+        }
+    }
+
+    public boolean shiftGrid(int gridPart, String direction, int amount) {
         // Determine the columns range to shift.
         int startCol = determineStartColumn(gridPart);
         int endCol = determineEndColumn(gridPart);
@@ -263,19 +285,37 @@ public class RushHourShiftGame {
             return false;
         }
 
-        // Check if the shift is feasible before attempting it.
-        if (!isShiftFeasible(gridPart, direction)) {
-            return false;
-        }
+        char[][] tempGameGrid = getGridCopy(gameGrid);
 
-        // Perform the shift based on the direction.
-        if ("N".equals(direction)) {
-            shiftUp(startCol, endCol);
-        } else if ("S".equals(direction)) {
-            shiftDown(startCol, endCol);
+        for (int i = 0; i < amount; i++) {
+            // Check if the shift is feasible before attempting it.
+            if (!isShiftFeasible(gridPart, direction)) {
+                System.out.println(gameGrid);
+                System.out.println(tempGameGrid);
+                gameGrid = tempGameGrid;
+                return false;
+            }
+
+            // Perform the shift based on the direction.
+            if ("N".equals(direction)) {
+                shiftUp(startCol, endCol);
+            } else if ("S".equals(direction)) {
+                shiftDown(startCol, endCol);
+            }
         }
 
         return true;
+    }
+
+    private char[][] getGridCopy(char[][] gameGrid) {
+        char[][] tempGameGrid = new char[gameGrid.length][];
+        for (int i = 0; i < gameGrid.length; i++) {
+            tempGameGrid[i] = new char[gameGrid[i].length];
+            for (int j = 0; j < gameGrid[i].length; j++) {
+                tempGameGrid[i][j] = gameGrid[i][j];
+            }
+        }
+        return tempGameGrid;
     }
 
     private boolean isVehicleAtShiftingEdge(int gridPart) {
@@ -344,7 +384,7 @@ public class RushHourShiftGame {
         for (int i = 0; i < GRID_ROWS; i++) {
             for (int j = 0; j < GRID_COLS; j++) {
                 if (gameGrid[i][j] != '.' && gameGrid[i][j] != '#') {
-                    System.out.println("gridvalue: "+ gameGrid[i][j]);
+                    System.out.println("gridvalue: " + gameGrid[i][j]);
                     System.out.println(vehicles.get(String.valueOf(gameGrid[i][j])));
                     vehiclesInRows.get(i).add(vehicles.get(String.valueOf(gameGrid[i][j])));
                 }
