@@ -69,9 +69,7 @@ public class State {
         while (!isGameOver()) {
             Player currentPlayer = players.get(currentPlayerIndex);
             currentPlayer.makeMove(game);
-            System.out.println("Initial AI distance from exit: " + game.calculateDistanceFromExitAI(game));
-            System.out.println("Initial player distance from exit: " + game.calculateDistanceFromExitPlayer(game));
-            System.out.println("evaluating the game state: " + game.evaluate(game));
+
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
 
         }

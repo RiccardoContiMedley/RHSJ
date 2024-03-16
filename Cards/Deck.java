@@ -28,7 +28,7 @@ public class Deck {
 
         // Add Shift and Move cards
         addShiftAndMoveCards(1, 1, 3); // 3 cards of Shift 1 and Move 1
-        addShiftAndMoveCards(1, 2, 3); // 3 cards of Shift 1 and Move 2
+        addShiftAndMoveCards(1, 1, 3); // 3 cards of Shift 1 and Move 2
     }
 
     private void addMoveCards(int movements, int count) {
@@ -49,7 +49,7 @@ public class Deck {
         }
     }
 
-    private void  addSlideCards(int count) {
+    private void addSlideCards(int count) {
         for (int i = 0; i < count; i++) {
             this.cards.add(new Slide());
         }

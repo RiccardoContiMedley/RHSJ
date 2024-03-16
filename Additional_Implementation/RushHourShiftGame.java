@@ -53,15 +53,24 @@ public class RushHourShiftGame {
         this.gameGrid = gameGrid;
     }
 
+    public Map getMap() {
+        return map;
+    }
+
     private void initializeGrid() {
         setUpGridWithEmptySpaces(gameGrid);
-        setUpGridWithVehicles(map);
-        System.out.println(getVehiclesInRows());
-        System.out.println(getVehiclesInColumns());
-        System.out.println(vehicles);
-        // for every element in veichles print the letter, and the aligmnet and the size
-        for (VehicleAlignment vh : vehicles.values()) {
-            System.out.println(vh.getVehicle().getLetter() + " " + vh.getAlignment() + " " + vh.getVehicle().getSize());
+        if (map != null) {
+            setUpGridWithVehicles(map);
+            // System.out.println(getVehiclesInRows());
+            // System.out.println(getVehiclesInColumns());
+            // System.out.println(vehicles);
+            // // for every element in veichles print the letter, and the aligmnet and the
+            // size
+            // for (VehicleAlignment vh : vehicles.values()) {
+            // System.out.println(
+            // vh.getVehicle().getLetter() + " " + vh.getAlignment() + " " +
+            // vh.getVehicle().getSize());
+            // }
         }
     }
 

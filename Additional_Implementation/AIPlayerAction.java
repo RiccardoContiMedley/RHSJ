@@ -6,26 +6,33 @@ public class AIPlayerAction {
     private Card card;
     private ArrayList<Action> actions;
     private char[][] gameGrid;
-    private RushHourShiftGame game;
 
-    public AIPlayerAction(Card card, ArrayList<Action> actions, RushHourShiftGame game) {
+    public AIPlayerAction(Card card, ArrayList<Action> actions) {
         this.card = card;
         this.actions = actions;
-        this.game = game;
-        gameGrid = RushHourShiftGame.getGridCopy(game.getGameGrid());
+
     }
 
     public Card getCard() {
         return card;
     }
 
-    public void execute() {
+    public ArrayList<Action> getActions() {
+        return actions;
+    }
+
+    public void addActions(Action action) {
+        actions.add(action);
+    }
+
+    public void execute(RushHourShiftGame game) {
+        gameGrid = RushHourShiftGame.getGridCopy(game.getGameGrid());
         for (Action action : actions) {
             action.execute();
         }
     }
 
-    public void undoMoves() {
+    public void undoMoves(RushHourShiftGame game) {
         game.setGameGrid(gameGrid);
     }
 

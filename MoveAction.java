@@ -30,12 +30,12 @@ public class MoveAction extends Action {
         if (!isOpponentVehicle(player, vehicleLetter)) {
             System.out.println("Moving vehicle " + vehicleLetter + " towards " + direction);
             boolean moveSuccessful = game.moveVehicle(vehicleLetter, direction);
-            game.printGrid();
+            // game.printGrid();
             return moveSuccessful;
         }
 
         System.out.println("You cannot move the opponnents car");
-        game.printGrid();
+        // game.printGrid();
         return false;
     }
 
