@@ -60,12 +60,20 @@ public class State {
 
         game.printGrid();
 
+        // Print out the initial distances from the exit
+        System.out.println("Initial AI distance from exit: " + game.calculateDistanceFromExitAI(game));
+        System.out.println("Initial player distance from exit: " + game.calculateDistanceFromExitPlayer(game));
+        System.out.println("evaluating the game state: " + game.evaluate(game));
+
         int currentPlayerIndex = 0;
         while (!isGameOver()) {
             Player currentPlayer = players.get(currentPlayerIndex);
             currentPlayer.makeMove(game);
-
+            System.out.println("Initial AI distance from exit: " + game.calculateDistanceFromExitAI(game));
+            System.out.println("Initial player distance from exit: " + game.calculateDistanceFromExitPlayer(game));
+            System.out.println("evaluating the game state: " + game.evaluate(game));
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+
         }
 
         System.out.println(winner.getName() + " wins!");

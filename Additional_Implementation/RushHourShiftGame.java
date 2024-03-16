@@ -423,4 +423,54 @@ public class RushHourShiftGame {
     public void setDeck(Deck deck) {
         this.deck = deck;
     }
+
+    public int calculateDistanceFromExitAI(RushHourShiftGame game) {
+        // Assuming the exit is at the end of the board and the board is a 1D array
+        // Also assuming the Vehicle class has a method getPosition() that returns the
+        // vehicle's current position
+        int exitPosition = -1;
+        System.out.println("Exit Position for the Ai: " + exitPosition);
+        int vehiclePosition = game.getVehiclePositions('2').get(1)[1] - 1; // at the beginning 11
+        System.out.println("AI Position: " + vehiclePosition);
+        // The distance is the difference between the exit position and the vehicle's
+        // position
+        int distance = vehiclePosition - exitPosition;
+        System.out.println("AI Distance: " + distance);
+
+        return distance;
+    }
+
+    public int calculateDistanceFromExitPlayer(RushHourShiftGame game) {
+        // Assuming the exit is at the end of the board and the board is a 1D array
+        // Also assuming the Vehicle class has a method getPosition() that returns the
+        // vehicle's current position
+        int exitPosition = game.getGridCols();
+        System.out.println("Exit Position for the Player: " + exitPosition);
+        int vehiclePosition = game.getVehiclePositions('1').get(0)[1] + 1;
+        System.out.println("Player Position: " + vehiclePosition);
+        // The distance is the difference between the exit position and the vehicle's
+        // position
+        int distance = exitPosition - vehiclePosition;
+        System.out.println("Player Distance: " + distance);
+
+        return distance;
+    }
+
+    public int evaluate(RushHourShiftGame game) {
+        // Positive scores AI, negative scores favor the opponent (in our case the human
+        // player)
+        // Example considerations:
+        // - Distance of AI's vehicle from the exit
+        // - Distance of opponent's vehicle from the exit
+        // - Number of blocking vehicles for both AI and opponent
+        // Adjust the scoring based on your game's mechanics and goals
+        int score = 0;
+
+        // Example simplicistic evaluation
+        score -= calculateDistanceFromExitAI(game);
+        score += calculateDistanceFromExitPlayer(game);
+
+        System.out.println("AI Score: " + score);
+        return score;
+    }
 }
