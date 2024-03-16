@@ -5,8 +5,13 @@ public class AIPlayer extends Player {
 
 	@Override
 	public void makeMove(RushHourShiftGame game) {
-		// Move the vehicle 1 to the East
-		State.handleMoveAction(this, '1', "E");
+		System.out.println("AI is taking it's turn");
+		Action bestMove = selectBestMove();
+		bestMove.execute(game);
+	}
+
+	private Action selectBestMove() {
+		return null;
 	}
 
 }

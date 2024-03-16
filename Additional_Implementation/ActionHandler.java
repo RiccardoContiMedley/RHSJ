@@ -117,18 +117,18 @@ public class ActionHandler {
             RushHourShiftGame game) {
         switch (actionType[0].toLowerCase()) {
             case "move":
-                return handleMoveCardAction(currentPlayer, scanner);
+                return handleMoveCardAction(currentPlayer, scanner, game);
             case "shift":
-                return handleShiftCardAction(actionType);
+                return handleShiftCardAction(actionType, game);
             case "slide":
                 return handleSlideCardAction(currentPlayer, actionType, game);
             case "shiftandmove":
-                return handleShiftAndMoveCardAction(currentPlayer, scanner);
+                return handleShiftAndMoveCardAction(currentPlayer, scanner, game);
         }
         return false;
     }
 
-    private static boolean handleMoveCardAction(Player player, Scanner scanner) {
+    private static boolean handleMoveCardAction(Player player, Scanner scanner, RushHourShiftGame game) {
         Move moveCard = (Move) playedCard;
         int movements = moveCard.getMovements();
 
@@ -137,7 +137,7 @@ public class ActionHandler {
         while (moveNumber != movements) {
             System.out.println(player.getName()
                     + "'s move Number " + (moveNumber + 1) + ". What would you like to do? (car,dir)");
-            boolean moveSuccessful = handleMovement(player, scanner);
+            boolean moveSuccessful = handleMovement(player, scanner, game);
             if (!moveSuccessful) {
                 System.out.println("Not succesfull move");
                 continue;
@@ -154,41 +154,16 @@ public class ActionHandler {
             String direction = actionString[2];
             int movements = Integer.parseInt(actionString[3]);
 
-            // Original positions before any movements
-            List<int[]> originalCarPosition = game.getVehiclePositions(vehicleLetter);
+            Action slideAction = new SlideAction(game, player, vehicleLetter, direction, movements);
+            return slideAction.execute();
 
-            boolean moveSuccessful = true;
-            for (int i = 0; i < movements; i++) {
-                // Attempt to move the vehicle. moveVehicle() should return a boolean indicating
-                // success
-                boolean result = State.handleMoveAction(player, vehicleLetter, direction);
-
-                if (State.isGameOver()) {
-                    return true;
-                }
-
-                if (!result) { // If any move is unsuccessful
-                    moveSuccessful = false;
-                    break; // Exit the loop if movement fails
-                }
-            }
-
-            if (!moveSuccessful) {
-                // If the move was not successful, reset the vehicle to its original positions
-                game.setVehiclePositions(vehicleLetter, originalCarPosition);
-                return false; // Indicate the action was not successful
-            }
-
-            // If this point is reached, all movements were successful
-            game.printGrid();
-            return true;
         } catch (Exception e) {
             System.out.println("Improper format");
             return false;
         }
     }
 
-    private static boolean handleMovement(Player player, Scanner scanner) {
+    private static boolean handleMovement(Player player, Scanner scanner, RushHourShiftGame game) {
 
         String moveAction = scanner.next();
         char valueLetter;
@@ -202,8 +177,9 @@ public class ActionHandler {
             System.out.println("Please use the apppropriate input format.");
             return false;
         }
-        boolean moveSuccessful = State.handleMoveAction(player, Character.toUpperCase(valueLetter),
+        Action action = new MoveAction(game, player, Character.toUpperCase(valueLetter),
                 direction.toUpperCase());
+        boolean moveSuccessful = action.execute();
 
         if (!moveSuccessful) {
             System.out.println("Move was not successfull please try again.");
@@ -213,17 +189,18 @@ public class ActionHandler {
         return true;
     }
 
-    private static boolean handleShiftCardAction(String[] actionType) {
+    private static boolean handleShiftCardAction(String[] actionType, RushHourShiftGame game) {
         try {
-            return State.handleShiftAction(actionType[1].trim().charAt(0), actionType[2],
+            Action shifAction = new ShiftGridAction(game, actionType[1].trim().charAt(0), actionType[2],
                     Integer.parseInt(actionType[3]));
+            return shifAction.execute();
         } catch (Exception e) {
             System.out.println("Improper format parsed to the input");
             return false;
         }
     }
 
-    private static boolean handleShiftAndMoveCardAction(Player player, Scanner scanner) {
+    private static boolean handleShiftAndMoveCardAction(Player player, Scanner scanner, RushHourShiftGame game) {
         ShiftAndMove moveCard = (ShiftAndMove) playedCard;
         int movements = moveCard.getMovements();
         int moveNumber = 0;
@@ -237,7 +214,7 @@ public class ActionHandler {
                 if (!(moveNumber == movements)) {
                     System.out.println(player.getName()
                             + "'s move Number " + (moveNumber + 1) + ". What would you like to do? (car,dir)");
-                    boolean hasMoved = handleMovement(player, scanner);
+                    boolean hasMoved = handleMovement(player, scanner, game);
                     if (hasMoved) {
                         moveNumber++;
                     }
@@ -247,10 +224,10 @@ public class ActionHandler {
                 }
             } else if (action.toLowerCase().equals("shift")) {
                 while (!hasShiftedGrid) {
-                    System.out.println("Please specify which grid you want to shift using shift(spaces,dir, side)");
+                    System.out.println("Please specify which grid you want to shift using shift(side,dir,spaces)");
                     String actionCommand = scanner.next();
                     String[] actionType = splitStringToParts(actionCommand);
-                    hasShiftedGrid = handleShiftCardAction(actionType);
+                    hasShiftedGrid = handleShiftCardAction(actionType, game);
                 }
                 if (hasShiftedGrid) {
                     System.out.println("You have used your shift action!");
