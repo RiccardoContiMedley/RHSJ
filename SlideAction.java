@@ -65,7 +65,6 @@ public class SlideAction extends Action {
         if (!isOpponentVehicle(player, vehicleLetter)) {
             System.out.println("Moving vehicle " + vehicleLetter + " towards " + direction);
             boolean moveSuccessful = game.moveVehicle(vehicleLetter, direction);
-            game.printGrid();
             return moveSuccessful;
         }
 
