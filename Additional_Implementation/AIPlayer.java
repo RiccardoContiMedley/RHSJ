@@ -13,5 +13,4 @@ public class AIPlayer extends Player {
 	private Action selectBestMove() {
 		return null;
 	}
-
 }
