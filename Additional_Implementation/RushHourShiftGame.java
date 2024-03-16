@@ -49,6 +49,10 @@ public class RushHourShiftGame {
         return GRID_COLS;
     }
 
+    public void setGameGrid(char[][] gameGrid) {
+        this.gameGrid = gameGrid;
+    }
+
     private void initializeGrid() {
         setUpGridWithEmptySpaces(gameGrid);
         setUpGridWithVehicles(map);
@@ -307,7 +311,7 @@ public class RushHourShiftGame {
         return true;
     }
 
-    private char[][] getGridCopy(char[][] gameGrid) {
+    public static char[][] getGridCopy(char[][] gameGrid) {
         char[][] tempGameGrid = new char[gameGrid.length][];
         for (int i = 0; i < gameGrid.length; i++) {
             tempGameGrid[i] = new char[gameGrid[i].length];
