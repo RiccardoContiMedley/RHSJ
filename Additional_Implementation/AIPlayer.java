@@ -4,24 +4,42 @@ import java.util.HashMap;
 
 import Cards.Card;
 import Cards.Move;
+import Cards.ShiftAndMove;
 
 public class AIPlayer extends Player {
 
 	private static final int MAX_DEPTH = 0;
 
 	public AIPlayer() {
-		super("AI", '1', 0);
+		super("AI", '1', RushHourShiftGame.getGridCols() - 1);
 	}
 
 	@Override
 	public void makeMove(RushHourShiftGame game) {
 		System.out.println("AI is taking it's turn");
 		AIPlayerAction bestMove = selectBestMove(game, this);
-		System.out.println("Executing move");
+		for (Action action : bestMove.getActions()) {
+			System.out.println("Executing action:  " + action.actionDescription());
+		}
 		bestMove.execute(game);
+		removeCardFromHand(this, bestMove.getCard());
+		this.getPlayerHand().add(game.getDeck().drawCard());
 		game.printGrid();
 		System.out.println("Done executing move");
-		// bestMove.execute(game);
+	}
+
+	public static boolean removeCardFromHand(Player currentPlayer, Card card) {
+		if (card.getName().equals("Move")) {
+			Move movecard = (Move) card;
+			return ActionHandler.removeCardFromHand(currentPlayer,
+					new String[] { card.getName(), String.valueOf(movecard.getMovements()) });
+		}
+		if (card.getName().equals("MoveAndShift")) {
+			Move movecard = (Move) card;
+			return ActionHandler.removeCardFromHand(currentPlayer,
+					new String[] { card.getName(), String.valueOf(movecard.getMovements()) });
+		}
+		return ActionHandler.removeCardFromHand(currentPlayer, new String[] { card.getName() });
 	}
 
 	private AIPlayerAction selectBestMove(RushHourShiftGame game, Player player) {
@@ -33,13 +51,10 @@ public class AIPlayer extends Player {
 			int score = minimax(game, 0, false, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			action.undoMoves(game);
 
-			System.out.println("score is: " + score + "best score is " + bestScore);
-
 			if (score > bestScore) {
 				bestScore = score;
 				bestMove = action;
 			}
-			System.out.println("score is: " + score + "best score is " + bestScore);
 
 		}
 
@@ -344,6 +359,7 @@ public class AIPlayer extends Player {
 
 				if (moveSuccessful) {
 					ArrayList<MoveAction> newMoveSequence = new ArrayList<>(currentMoveSequence);
+					moveAction.setGame(game);
 					newMoveSequence.add(moveAction);
 					generateMoveCombinations(
 							possiblePlayerMoveActions,

@@ -17,10 +17,17 @@ public class ShiftGridAction extends Action {
         return handleShiftAction();
     }
 
+    public void setGame(RushHourShiftGame game) {
+        this.game = game;
+    }
+
     public boolean handleShiftAction() {
         boolean moveSuccessful = game.shiftGrid(Integer.parseInt(String.valueOf(gridPart)), direction, amount);
-        game.printGrid();
         return moveSuccessful;
+    }
+
+    public String actionDescription() {
+        return "Shifting " + gridPart + " towards " + direction;
     }
 
 }

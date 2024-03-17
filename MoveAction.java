@@ -19,22 +19,28 @@ public class MoveAction extends Action {
         return handleMoveAction();
     }
 
+    public void setGame(RushHourShiftGame game) {
+        this.game = game;
+    }
+
+    public String actionDescription() {
+        return "Moving " + vehicleLetter + " towards " + direction;
+    }
+
     public boolean handleMoveAction() {
 
         if (crossesPlayerBound(player, vehicleLetter, direction)) {
-            System.out.println("You cannot move out from your starting side.");
-            game.printGrid();
+            // System.out.println("You cannot move out from your starting side.");
             return false;
         }
 
         if (!isOpponentVehicle(player, vehicleLetter)) {
-            System.out.println("Moving vehicle " + vehicleLetter + " towards " + direction);
             boolean moveSuccessful = game.moveVehicle(vehicleLetter, direction);
             // game.printGrid();
             return moveSuccessful;
         }
 
-        System.out.println("You cannot move the opponnents car");
+        // System.out.println("You cannot move the opponnents car");
         // game.printGrid();
         return false;
     }
@@ -46,6 +52,7 @@ public class MoveAction extends Action {
                 return true; // Found the vehicle letter belongs to an opponent
             }
         }
+
         return false; // The vehicle does not belong to an opponent
     }
 

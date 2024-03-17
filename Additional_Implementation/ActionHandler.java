@@ -15,6 +15,7 @@ public class ActionHandler {
         boolean moveSuccessful = false;
         Scanner scanner = new Scanner(System.in);
         while (!moveSuccessful) {
+            printPlayersCards(State.players.get(0));
             printPlayersCards(currentPlayer);
             printUserCardsInstruction(currentPlayer);
             String[] actionType = HandlePlayerCardInput(scanner, currentPlayer);
@@ -46,7 +47,7 @@ public class ActionHandler {
         return actionType;
     }
 
-    private static boolean removeCardFromHand(Player currentPlayer, String[] actionParts) {
+    public static boolean removeCardFromHand(Player currentPlayer, String[] actionParts) {
         for (int i = 0; i < 4; i++) {
             if (currentPlayer.getPlayerHand().get(i).getName().toLowerCase()
                     .equals(actionParts[0].toLowerCase())) {
