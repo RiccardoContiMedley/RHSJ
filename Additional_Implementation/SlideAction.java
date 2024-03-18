@@ -21,6 +21,10 @@ public class SlideAction extends Action {
         return handleSlideAction();
     }
 
+    public void setGame(RushHourShiftGame game) {
+        this.game = game;
+    }
+
     public boolean handleSlideAction() {
 
         List<int[]> originalCarPosition = game.getVehiclePositions(vehicleLetter);
@@ -47,8 +51,6 @@ public class SlideAction extends Action {
             return false; // Indicate the action was not successful
         }
 
-        // If this point is reached, all movements were successful
-        game.printGrid();
         return true;
     }
 
@@ -57,19 +59,18 @@ public class SlideAction extends Action {
     public boolean handleMoveAction() {
 
         if (crossesPlayerBound(player, vehicleLetter, direction)) {
-            System.out.println("You cannot move out from your starting side.");
-            game.printGrid();
+            // I will check you later System.out.println("You cannot move out from your
+            // starting side.");
             return false;
         }
 
         if (!isOpponentVehicle(player, vehicleLetter)) {
-            System.out.println("Moving vehicle " + vehicleLetter + " towards " + direction);
             boolean moveSuccessful = game.moveVehicle(vehicleLetter, direction);
             return moveSuccessful;
         }
 
-        System.out.println("You cannot move the opponnents car");
-        game.printGrid();
+        // i will check you later System.out.println("You cannot move the opponnents
+        // car");
         return false;
     }
 
@@ -112,6 +113,10 @@ public class SlideAction extends Action {
         }
 
         return isMovingTowardsRestrictedSide;
+    }
+
+    public String actionDescription() {
+        return "Sliding " + vehicleLetter + " towards " + direction + " with movements " + movements;
     }
 
 }

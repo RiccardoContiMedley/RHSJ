@@ -15,6 +15,7 @@ public class ActionHandler {
         boolean moveSuccessful = false;
         Scanner scanner = new Scanner(System.in);
         while (!moveSuccessful) {
+            printPlayersCards(State.players.get(0));
             printPlayersCards(currentPlayer);
             printUserCardsInstruction(currentPlayer);
             String[] actionType = HandlePlayerCardInput(scanner, currentPlayer);
@@ -46,8 +47,8 @@ public class ActionHandler {
         return actionType;
     }
 
-    private static boolean removeCardFromHand(Player currentPlayer, String[] actionParts) {
-        for (int i = 0; i < 4; i++) {
+    public static boolean removeCardFromHand(Player currentPlayer, String[] actionParts) {
+        for (int i = 0; i < currentPlayer.getPlayerHand().size(); i++) {
             if (currentPlayer.getPlayerHand().get(i).getName().toLowerCase()
                     .equals(actionParts[0].toLowerCase())) {
                 if (actionParts[0].toLowerCase().equals("move".toLowerCase())) {
@@ -101,7 +102,7 @@ public class ActionHandler {
     private static void printPlayersCards(Player currentPlayer) {
         System.out.println(currentPlayer.getName()
                 + " has the following cards:");
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < currentPlayer.getCardsInHand().size(); i++) {
             if (currentPlayer.getPlayerHand().get(i).getName() == "Move") {
                 System.out.println("Move" + ((Move) currentPlayer.getPlayerHand().get(i)).getMovements());
             } else if (currentPlayer.getPlayerHand().get(i).getName() == "ShiftAndMove") {

@@ -7,28 +7,37 @@ import java.util.List;
 public class Deck {
     private List<Card> cards;
 
-    public Deck() {
+    public Deck(int value) {
         this.cards = new ArrayList<>();
-        initializeDeck(); // Populate the deck upon construction
+        initializeDeck(value); // Populate the deck upon construction
         shuffle(); // Shuffle the deck
     }
 
-    private void initializeDeck() {
-        // Add Move cards according to the specified quantities
-        addMoveCards(1, 6); // 6 cards of Move 1
-        addMoveCards(2, 6); // 6 cards of Move 2
-        addMoveCards(3, 4); // 4 cards of Move 3
-        addMoveCards(4, 3); // 3 cards of Move 4
+    private void initializeDeck(int value) {
+        if (value == 1) {
+            // Add Move cards according to the specified quantities
+            addMoveCards(1, 30); // 6 cards of Move 1
+            // addMoveCards(2, 9); // 6 cards of Move 2
+            // addMoveCards(3, 4); // 4 cards of Move 3
+            // addMoveCards(4, 3); // 3 cards of Move 4
 
-        // Add Shift cards
-        addShiftCards(1, 4); // 4 cards of Shift 1
+            // Add Shift cards
+            // addShiftCards(1, 4); // 4 cards of Shift 1
 
-        // Add Slide cards
-        addSlideCards(3); // 3 cards of Slide
+            // Add Slide cards
+            // addSlideCards(3); // 3 cards of Slide
 
-        // Add Shift and Move cards
-        addShiftAndMoveCards(1, 1, 3); // 3 cards of Shift 1 and Move 1
-        addShiftAndMoveCards(1, 2, 3); // 3 cards of Shift 1 and Move 2
+            // Add Shift and Move cards
+            // addShiftAndMoveCards(1, 1, 3); // 3 cards of Shift 1 and Move 1
+            // addShiftAndMoveCards(1, 1, 3); // 3 cards of Shift 1 and Move 2 I
+            // changed!!!!!!!!!
+        } else {
+            addMoveCards(1, 10); // 6 cards of Move 1
+            addMoveCards(2, 9); // 6 cards of Move 2
+            addSlideCards(3); // 3 cards of Slide
+            addShiftCards(1, 4); // 4 cards of Shift 1
+
+        }
     }
 
     private void addMoveCards(int movements, int count) {
@@ -49,7 +58,7 @@ public class Deck {
         }
     }
 
-    private void  addSlideCards(int count) {
+    private void addSlideCards(int count) {
         for (int i = 0; i < count; i++) {
             this.cards.add(new Slide());
         }

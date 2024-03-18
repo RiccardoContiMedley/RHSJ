@@ -24,13 +24,20 @@ public class State {
         gameState.scanner.close();
     }
 
-    private void setPlayersHand() {
+    private void setPlayersHand(RushHourShiftGame game) {
         for (Player player : players) {
             // forr loop that iterates 4 times
             player.setPlayerHand(new ArrayList<Card>());
-            for (int i = 0; i < 4; i++) {
-                player.getPlayerHand().add(game.getDeck().drawCard());
+            if (!(game.getMap() instanceof Map1)) {
+                for (int i = 0; i < 1; i++) {
+                    player.getPlayerHand().add(game.getDeck().drawCard());
+                }
+            } else {
+                for (int i = 0; i < 4; i++) {
+                    player.getPlayerHand().add(game.getDeck().drawCard());
+                }
             }
+
         }
     }
 
@@ -56,7 +63,7 @@ public class State {
 
         game = new RushHourShiftGame(chosenMap);
 
-        setPlayersHand();
+        setPlayersHand(game);
 
         game.printGrid();
 
@@ -69,9 +76,7 @@ public class State {
         while (!isGameOver()) {
             Player currentPlayer = players.get(currentPlayerIndex);
             currentPlayer.makeMove(game);
-            System.out.println("Initial AI distance from exit: " + game.calculateDistanceFromExitAI(game));
-            System.out.println("Initial player distance from exit: " + game.calculateDistanceFromExitPlayer(game));
-            System.out.println("evaluating the game state: " + game.evaluate(game));
+
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
 
         }
@@ -130,8 +135,10 @@ public class State {
     private Map GetSelectedMapFromString(String mapName) {
         if ("map1".equalsIgnoreCase(mapName)) {
             return new Map1();
-        } else if ("map2".equalsIgnoreCase(mapName)) {
-            // return new Map2();
+        } else if ("map3".equalsIgnoreCase(mapName)) {
+            return new Map3();
+        } else if ("map4".equalsIgnoreCase(mapName)) {
+            return new Map4();
         }
         return null;
     }

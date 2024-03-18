@@ -37,8 +37,16 @@ public class RushHourShiftGame {
         this.map = map;
         this.vehicleAlignments = new HashMap<>();
         initializeGrid();
-        deck = new Deck();
+        setDeck(map);
 
+    }
+
+    public void setDeck(Map map) {
+        if (map instanceof Map1) {
+            deck = new Deck(0);
+        } else {
+            deck = new Deck(1);
+        }
     }
 
     /**
@@ -49,15 +57,18 @@ public class RushHourShiftGame {
         return GRID_COLS;
     }
 
+    public void setGameGrid(char[][] gameGrid) {
+        this.gameGrid = gameGrid;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
     private void initializeGrid() {
         setUpGridWithEmptySpaces(gameGrid);
-        setUpGridWithVehicles(map);
-        System.out.println(getVehiclesInRows());
-        System.out.println(getVehiclesInColumns());
-        System.out.println(vehicles);
-        // for every element in veichles print the letter, and the aligmnet and the size
-        for (VehicleAlignment vh : vehicles.values()) {
-            System.out.println(vh.getVehicle().getLetter() + " " + vh.getAlignment() + " " + vh.getVehicle().getSize());
+        if (map != null) {
+            setUpGridWithVehicles(map);
         }
     }
 
@@ -125,19 +136,16 @@ public class RushHourShiftGame {
     public boolean moveVehicle(char vehicleLetter, String direction) {
         List<int[]> vehiclePositions = getVehiclePositions(vehicleLetter);
         if (vehiclePositions.isEmpty()) {
-            System.out.println("Vehicle not found.");
             return false;
         }
 
         VehicleAlignment vehicleAlignment = vehicleAlignments.get(vehicleLetter);
         if (vehicleAlignment == null) {
-            System.out.println("Vehicle alignment not found.");
             return false;
         }
 
         // Check if the movement direction is compatible with the vehicle's alignment
         if (!isMoveCompatibleWithAlignment(vehicleAlignment.getAlignment(), direction)) {
-            System.out.println("Vehicle cannot move against its alignment.");
             return false;
         }
 
@@ -177,7 +185,7 @@ public class RushHourShiftGame {
         // Additional rule for non-player cars: they should not move off the grid
         // horizontally
         if (!isPlayerCar && colDelta != 0 && (newCol < 0 || newCol >= GRID_COLS)) {
-            System.out.println("Non-player vehicles cannot move off the grid.");
+            // System.out.println("Non-player vehicles cannot move off the grid.");
             return false;
         }
 
@@ -187,7 +195,7 @@ public class RushHourShiftGame {
             updateVehiclePosition(vehiclePositions, rowDelta, colDelta, vehicleLetter);
             return true;
         } else {
-            System.out.println("Move is blocked or out of bounds.");
+            // Move is blocked or out of bounds.
             return false;
         }
     }
@@ -281,7 +289,7 @@ public class RushHourShiftGame {
 
         // Check for horizontally aligned vehicles in the shift range.
         if (isVehicleAtShiftingEdge(gridPart)) {
-            System.out.println("Shift aborted: horizontally aligned vehicle detected.");
+            // System.out.println("Shift aborted: horizontally aligned vehicle detected.");
             return false;
         }
 
@@ -290,8 +298,6 @@ public class RushHourShiftGame {
         for (int i = 0; i < amount; i++) {
             // Check if the shift is feasible before attempting it.
             if (!isShiftFeasible(gridPart, direction)) {
-                System.out.println(gameGrid);
-                System.out.println(tempGameGrid);
                 gameGrid = tempGameGrid;
                 return false;
             }
@@ -307,7 +313,7 @@ public class RushHourShiftGame {
         return true;
     }
 
-    private char[][] getGridCopy(char[][] gameGrid) {
+    public static char[][] getGridCopy(char[][] gameGrid) {
         char[][] tempGameGrid = new char[gameGrid.length][];
         for (int i = 0; i < gameGrid.length; i++) {
             tempGameGrid[i] = new char[gameGrid[i].length];
@@ -376,8 +382,7 @@ public class RushHourShiftGame {
      */
     private HashMap<Integer, List<VehicleAlignment>> getVehiclesInRows() {
         HashMap<Integer, List<VehicleAlignment>> vehiclesInRows = new HashMap<>();
-        System.out.println("veic keys: " + vehicles.keySet());
-        System.out.println("veic keys: " + vehicles.values());
+
         for (int i = 0; i < GRID_ROWS; i++) {
             vehiclesInRows.put(i, new ArrayList<>());
         }
@@ -424,14 +429,14 @@ public class RushHourShiftGame {
         // Assuming the exit is at the end of the board and the board is a 1D array
         // Also assuming the Vehicle class has a method getPosition() that returns the
         // vehicle's current position
-        int exitPosition = -1;
-        System.out.println("Exit Position for the Ai: " + exitPosition);
-        int vehiclePosition = game.getVehiclePositions('2').get(1)[1] - 1; // at the beginning 11
-        System.out.println("AI Position: " + vehiclePosition);
+        int exitPosition = game.getGridCols();
+        if (game.getVehiclePositions('1').size() == 0) {
+            return 0;
+        }
+        int vehiclePosition = game.getVehiclePositions('1').get(0)[1]; // at the beginning 11
         // The distance is the difference between the exit position and the vehicle's
         // position
-        int distance = vehiclePosition - exitPosition;
-        System.out.println("AI Distance: " + distance);
+        int distance = exitPosition - vehiclePosition;
 
         return distance;
     }
@@ -440,15 +445,17 @@ public class RushHourShiftGame {
         // Assuming the exit is at the end of the board and the board is a 1D array
         // Also assuming the Vehicle class has a method getPosition() that returns the
         // vehicle's current position
-        int exitPosition = game.getGridCols();
-        System.out.println("Exit Position for the Player: " + exitPosition);
-        int vehiclePosition = game.getVehiclePositions('1').get(0)[1] + 1;
-        System.out.println("Player Position: " + vehiclePosition);
-        // The distance is the difference between the exit position and the vehicle's
-        // position
-        int distance = exitPosition - vehiclePosition;
-        System.out.println("Player Distance: " + distance);
-
+        int exitPosition = -1;
+        if (game.getVehiclePositions('2').size() == 0) {
+            return 0;
+        }
+        if (game.getVehiclePositions('2').size() == 1) {
+            int vehiclePosition = game.getVehiclePositions('2').get(0)[1];
+            int distance = vehiclePosition - exitPosition;
+            return distance;
+        }
+        int vehiclePosition = game.getVehiclePositions('2').get(1)[1];
+        int distance = vehiclePosition - exitPosition;
         return distance;
     }
 
@@ -465,8 +472,6 @@ public class RushHourShiftGame {
         // Example simplicistic evaluation
         score -= calculateDistanceFromExitAI(game);
         score += calculateDistanceFromExitPlayer(game);
-
-        System.out.println("AI Score: " + score);
         return score;
     }
 }

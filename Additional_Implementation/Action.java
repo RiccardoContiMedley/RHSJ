@@ -6,4 +6,8 @@ public abstract class Action {
         throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
 
+    public String actionDescription() {
+        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+    }
+
 }
