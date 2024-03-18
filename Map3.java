@@ -20,6 +20,10 @@ public class Map3 implements Map {
         return vehicleAlignment;
     }
 
+    public int getDepth() {
+        return 7;
+    }
+
     public char[] getPossibleVehicles() {
         char[] possibleVehicles = { 'C', '1', '2' };
         return possibleVehicles;

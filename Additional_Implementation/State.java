@@ -24,13 +24,20 @@ public class State {
         gameState.scanner.close();
     }
 
-    private void setPlayersHand() {
+    private void setPlayersHand(RushHourShiftGame game) {
         for (Player player : players) {
             // forr loop that iterates 4 times
             player.setPlayerHand(new ArrayList<Card>());
-            for (int i = 0; i < 1; i++) {
-                player.getPlayerHand().add(game.getDeck().drawCard());
+            if (!(game.getMap() instanceof Map1)) {
+                for (int i = 0; i < 1; i++) {
+                    player.getPlayerHand().add(game.getDeck().drawCard());
+                }
+            } else {
+                for (int i = 0; i < 4; i++) {
+                    player.getPlayerHand().add(game.getDeck().drawCard());
+                }
             }
+
         }
     }
 
@@ -56,7 +63,7 @@ public class State {
 
         game = new RushHourShiftGame(chosenMap);
 
-        setPlayersHand();
+        setPlayersHand(game);
 
         game.printGrid();
 

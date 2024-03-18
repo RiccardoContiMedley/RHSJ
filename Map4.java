@@ -20,6 +20,10 @@ public class Map4 implements Map {
         return vehicleAlignment;
     }
 
+    public int getDepth() {
+        return 7;
+    }
+
     public char[] getPossibleVehicles() {
         char[] possibleVehicles = { 'A', '1', '2' };
         return possibleVehicles;

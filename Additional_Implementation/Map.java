@@ -6,4 +6,6 @@ public interface Map {
     public char[] getPossibleVehicles();
 
     public String[] getPossibleDirections();
+
+    public int getDepth();
 }

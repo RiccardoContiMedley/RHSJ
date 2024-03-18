@@ -8,7 +8,7 @@ import Cards.ShiftAndMove;
 
 public class AIPlayer extends Player {
 
-	private static final int MAX_DEPTH = 3;
+	private int MAX_DEPTH = 0;
 
 	private int statesGenerated = 0;
 
@@ -19,6 +19,7 @@ public class AIPlayer extends Player {
 	@Override
 	public void makeMove(RushHourShiftGame game) {
 		System.out.println("AI is taking it's turn");
+		MAX_DEPTH = game.getMap().getDepth();
 		AIPlayerAction bestMove = selectBestMove(game, this);
 		for (Action action : bestMove.getActions()) {
 			System.out.println("Executing action:  " + action.actionDescription());

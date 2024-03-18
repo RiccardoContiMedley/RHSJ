@@ -46,6 +46,10 @@ public class Map1 implements Map {
                 return possibleVehicles;
         }
 
+        public int getDepth() {
+                return 0;
+        }
+
         public String[] getPossibleDirections() {
                 String[] possibleDirection = { "N", "S", "E", "W" };
                 return possibleDirection;
