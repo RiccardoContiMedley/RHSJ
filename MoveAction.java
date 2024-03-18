@@ -30,18 +30,14 @@ public class MoveAction extends Action {
     public boolean handleMoveAction() {
 
         if (crossesPlayerBound(player, vehicleLetter, direction)) {
-            // System.out.println("You cannot move out from your starting side.");
             return false;
         }
 
         if (!isOpponentVehicle(player, vehicleLetter)) {
             boolean moveSuccessful = game.moveVehicle(vehicleLetter, direction);
-            // game.printGrid();
             return moveSuccessful;
         }
 
-        // System.out.println("You cannot move the opponnents car");
-        // game.printGrid();
         return false;
     }
 

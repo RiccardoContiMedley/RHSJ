@@ -61,16 +61,6 @@ public class RushHourShiftGame {
         setUpGridWithEmptySpaces(gameGrid);
         if (map != null) {
             setUpGridWithVehicles(map);
-            // System.out.println(getVehiclesInRows());
-            // System.out.println(getVehiclesInColumns());
-            // System.out.println(vehicles);
-            // // for every element in veichles print the letter, and the aligmnet and the
-            // size
-            // for (VehicleAlignment vh : vehicles.values()) {
-            // System.out.println(
-            // vh.getVehicle().getLetter() + " " + vh.getAlignment() + " " +
-            // vh.getVehicle().getSize());
-            // }
         }
     }
 
@@ -197,7 +187,7 @@ public class RushHourShiftGame {
             updateVehiclePosition(vehiclePositions, rowDelta, colDelta, vehicleLetter);
             return true;
         } else {
-            // System.out.println("Move is blocked or out of bounds.");
+            // Move is blocked or out of bounds.
             return false;
         }
     }
