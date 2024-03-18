@@ -37,8 +37,16 @@ public class RushHourShiftGame {
         this.map = map;
         this.vehicleAlignments = new HashMap<>();
         initializeGrid();
-        deck = new Deck();
+        setDeck(map);
 
+    }
+
+    public void setDeck(Map map) {
+        if (map instanceof Map1) {
+            deck = new Deck(0);
+        } else {
+            deck = new Deck(1);
+        }
     }
 
     /**
