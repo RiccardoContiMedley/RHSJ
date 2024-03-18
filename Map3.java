@@ -12,7 +12,7 @@ public class Map3 implements Map {
     public ArrayList<VehicleAlignment> getVehiclesAlignment() {
         // Adding vehicles with different positions and alignments
         vehicleAlignment
-                .add(new VehicleAlignment(RushHourShiftGame.CARA, VehicleAlignment.Alignment.VERTICAL, 6, 3));
+                .add(new VehicleAlignment(RushHourShiftGame.CARC, VehicleAlignment.Alignment.VERTICAL, 6, 3));
         vehicleAlignment.add(new VehicleAlignment(RushHourShiftGame.CAR1, VehicleAlignment.Alignment.HORIZONTAL, 6, 0));
         vehicleAlignment
                 .add(new VehicleAlignment(RushHourShiftGame.CAR2, VehicleAlignment.Alignment.HORIZONTAL, 9, 12));
@@ -21,7 +21,7 @@ public class Map3 implements Map {
     }
 
     public char[] getPossibleVehicles() {
-        char[] possibleVehicles = { 'A', '1', '2' };
+        char[] possibleVehicles = { 'C', '1', '2' };
         return possibleVehicles;
     }
 

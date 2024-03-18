@@ -8,7 +8,9 @@ import Cards.ShiftAndMove;
 
 public class AIPlayer extends Player {
 
-	private static final int MAX_DEPTH = 5;
+	private static final int MAX_DEPTH = 3;
+
+	private int statesGenerated = 0;
 
 	public AIPlayer() {
 		super("AI", '1', RushHourShiftGame.getGridCols() - 1);
@@ -25,6 +27,7 @@ public class AIPlayer extends Player {
 		removeCardFromHand(this, bestMove.getCard());
 		this.getPlayerHand().add(game.getDeck().drawCard());
 		game.printGrid();
+		System.out.println("The states generated was: " + statesGenerated);
 		System.out.println("Done executing move");
 	}
 
@@ -47,18 +50,24 @@ public class AIPlayer extends Player {
 		AIPlayerAction bestMove = null;
 
 		ArrayList<AIPlayerAction> playerActions = generateAllPossibleActionsForPlayer(game, player);
+		long startTime = System.currentTimeMillis();
 
 		for (AIPlayerAction action : playerActions) {
 			action.execute(game);
+			statesGenerated++;
 			int score = minimax(game, 0, false, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			action.undoMoves(game);
-			System.out.println("Action this" + action.getActions().get(0).actionDescription() + " has score " + score);
+			System.out.println("Action " + action.getActions().get(0).actionDescription() + " has score " + score);
 			if (score > bestScore) {
 				bestScore = score;
 				bestMove = action;
 			}
 
 		}
+
+		long elapsedTime = System.currentTimeMillis() - startTime;
+		long elapsedSeconds = elapsedTime / 1000;
+		System.out.println("Elapsed time is: " + elapsedTime);
 
 		return bestMove;
 	}
@@ -72,6 +81,7 @@ public class AIPlayer extends Player {
 			int maxEval = Integer.MIN_VALUE;
 			for (AIPlayerAction playerAction : generateAllPossibleActionsForPlayer(game, State.players.get(0))) {
 				playerAction.execute(game); // You need to implement this method
+				statesGenerated++;
 				int eval = minimax(game, depth + 1, false, alpha, beta);
 				playerAction.undoMoves(game); // And this one, to revert the move after evaluation
 				maxEval = Math.max(maxEval, eval);
@@ -84,6 +94,7 @@ public class AIPlayer extends Player {
 			int minEval = Integer.MAX_VALUE;
 			for (AIPlayerAction playerAction : generateAllPossibleActionsForPlayer(game, State.players.get(1))) {
 				playerAction.execute(game);
+				statesGenerated++;
 				int eval = minimax(game, depth + 1, true, alpha, beta);
 				playerAction.undoMoves(game);
 				minEval = Math.min(minEval, eval);
