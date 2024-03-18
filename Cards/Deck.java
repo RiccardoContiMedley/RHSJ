@@ -14,7 +14,7 @@ public class Deck {
     }
 
     private void initializeDeck(int value) {
-        if (value == 0) {
+        if (value == 1) {
             // Add Move cards according to the specified quantities
             addMoveCards(1, 30); // 6 cards of Move 1
             // addMoveCards(2, 9); // 6 cards of Move 2
