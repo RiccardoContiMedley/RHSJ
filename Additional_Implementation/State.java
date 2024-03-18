@@ -128,8 +128,8 @@ public class State {
     private Map GetSelectedMapFromString(String mapName) {
         if ("map1".equalsIgnoreCase(mapName)) {
             return new Map1();
-        } else if ("map2".equalsIgnoreCase(mapName)) {
-            // return new Map2();
+        } else if ("map3".equalsIgnoreCase(mapName)) {
+            return new Map3();
         }
         return null;
     }

@@ -15,16 +15,16 @@ public class Deck {
 
     private void initializeDeck() {
         // Add Move cards according to the specified quantities
-        addMoveCards(1, 10); // 6 cards of Move 1
-        addMoveCards(2, 9); // 6 cards of Move 2
+        addMoveCards(1, 30); // 6 cards of Move 1
+        // addMoveCards(2, 9); // 6 cards of Move 2
         // addMoveCards(3, 4); // 4 cards of Move 3
         // addMoveCards(4, 3); // 3 cards of Move 4
 
         // Add Shift cards
-        addShiftCards(1, 4); // 4 cards of Shift 1
+        // addShiftCards(1, 4); // 4 cards of Shift 1
 
         // Add Slide cards
-        addSlideCards(3); // 3 cards of Slide
+        // addSlideCards(3); // 3 cards of Slide
 
         // Add Shift and Move cards
         // addShiftAndMoveCards(1, 1, 3); // 3 cards of Shift 1 and Move 1
