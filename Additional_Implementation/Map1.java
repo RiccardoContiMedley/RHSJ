@@ -40,4 +40,14 @@ public class Map1 implements Map {
                                                 9, 12));
                 return vehicleAlignment;
         }
+
+        public char[] getPossibleVehicles() {
+                char[] possibleVehicles = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', '1', '2' };
+                return possibleVehicles;
+        }
+
+        public String[] getPossibleDirections() {
+                String[] possibleDirection = { "N", "S", "E", "W" };
+                return possibleDirection;
+        }
 }

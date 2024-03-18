@@ -451,6 +451,11 @@ public class RushHourShiftGame {
         if (game.getVehiclePositions('2').size() == 0) {
             return 0;
         }
+        if (game.getVehiclePositions('2').size() == 1) {
+            int vehiclePosition = game.getVehiclePositions('2').get(0)[1];
+            int distance = vehiclePosition - exitPosition;
+            return distance;
+        }
         int vehiclePosition = game.getVehiclePositions('2').get(1)[1];
         int distance = vehiclePosition - exitPosition;
         return distance;

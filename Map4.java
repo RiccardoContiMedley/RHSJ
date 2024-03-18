@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
-public class Map3 implements Map {
+public class Map4 implements Map {
 
     private ArrayList<VehicleAlignment> vehicleAlignment;
 
-    public Map3() {
+    public Map4() {
         vehicleAlignment = new ArrayList<>();
     }
 
@@ -12,10 +12,10 @@ public class Map3 implements Map {
     public ArrayList<VehicleAlignment> getVehiclesAlignment() {
         // Adding vehicles with different positions and alignments
         vehicleAlignment
-                .add(new VehicleAlignment(RushHourShiftGame.CARA, VehicleAlignment.Alignment.VERTICAL, 6, 3));
-        vehicleAlignment.add(new VehicleAlignment(RushHourShiftGame.CAR1, VehicleAlignment.Alignment.HORIZONTAL, 6, 0));
+                .add(new VehicleAlignment(RushHourShiftGame.CARA, VehicleAlignment.Alignment.VERTICAL, 5, 0));
+        vehicleAlignment.add(new VehicleAlignment(RushHourShiftGame.CAR1, VehicleAlignment.Alignment.HORIZONTAL, 6, 5));
         vehicleAlignment
-                .add(new VehicleAlignment(RushHourShiftGame.CAR2, VehicleAlignment.Alignment.HORIZONTAL, 9, 12));
+                .add(new VehicleAlignment(RushHourShiftGame.CAR2, VehicleAlignment.Alignment.HORIZONTAL, 9, 5));
 
         return vehicleAlignment;
     }

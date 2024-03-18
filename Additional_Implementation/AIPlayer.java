@@ -8,7 +8,7 @@ import Cards.ShiftAndMove;
 
 public class AIPlayer extends Player {
 
-	private static final int MAX_DEPTH = 3;
+	private static final int MAX_DEPTH = 5;
 
 	public AIPlayer() {
 		super("AI", '1', RushHourShiftGame.getGridCols() - 1);
@@ -97,8 +97,8 @@ public class AIPlayer extends Player {
 
 	private ArrayList<AIPlayerAction> generateAllPossibleActionsForPlayer(RushHourShiftGame game, Player player) {
 
-		char[] possibleVehicles = { 'A', '1', '2' };
-		String[] possibleDirection = { "S", "E", "W" };
+		char[] possibleVehicles = game.getMap().getPossibleVehicles();
+		String[] possibleDirection = game.getMap().getPossibleDirections();
 		char[] possibleGridParts = { '0', '1' };
 		int[] possibleMovements = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
 

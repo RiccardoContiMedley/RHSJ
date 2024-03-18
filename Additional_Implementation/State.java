@@ -28,7 +28,7 @@ public class State {
         for (Player player : players) {
             // forr loop that iterates 4 times
             player.setPlayerHand(new ArrayList<Card>());
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 1; i++) {
                 player.getPlayerHand().add(game.getDeck().drawCard());
             }
         }
@@ -130,6 +130,8 @@ public class State {
             return new Map1();
         } else if ("map3".equalsIgnoreCase(mapName)) {
             return new Map3();
+        } else if ("map4".equalsIgnoreCase(mapName)) {
+            return new Map4();
         }
         return null;
     }
